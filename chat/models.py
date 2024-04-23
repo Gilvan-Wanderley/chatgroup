@@ -7,9 +7,11 @@ class Room(models.Model):
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=200)
-    messages = models.ManyToManyField('Message')
+    messages = models.ManyToManyField('Message', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.title
 
 class Message(models.Model):
     user = models.ForeignKey(
@@ -18,3 +20,7 @@ class Message(models.Model):
     )
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        msg  = self.text if len(self.text) < 30 else f'{self.text[0:30]}...'
+        return f'{self.user.username}: {msg}'
