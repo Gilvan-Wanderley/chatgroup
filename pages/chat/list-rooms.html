@@ -1,5 +1,5 @@
 <ul class="list-rooms list-group shadow border-0">
-    {% for r in rooms%}
-    <li role="button" class="list-group-item" id="room-{{r.id}}" onclick="getMessages('{{r.id}}')">{{r.title}}</li>
+    {% for r in rooms %}
+        {% include 'chat/rooms.html' %}
     {% endfor %}
 </ul>

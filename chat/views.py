@@ -6,7 +6,7 @@ from .models import Message, Room
 import json
 
 def chat(request):
-    rooms = Room.objects.all()
+    rooms = Room.objects.all().order_by('-created_at')
     return render(request, 'chat/index.html', {'rooms': rooms})
 
 def send_message(request, pk):
@@ -16,6 +16,12 @@ def send_message(request, pk):
     room.messages.add(new_msg)
     return render(request, 'chat/chat-message.html', {'m': new_msg})
 
+def create_room(request):
+     print(request)
+     title = json.loads(request.body)['title']
+     
+     room = Room.objects.create(user=request.user, title=title)
+     return render(request, 'chat/rooms.html', {'r':room})
 
 class RoomDetailView(DetailView):
     model = Room
